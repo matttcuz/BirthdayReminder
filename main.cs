@@ -25,23 +25,17 @@ public class BirthdayRepository
 
     public BirthdayRepository()
     {
-        // Храним базу данных в папке AppData
         string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         string appFolder = Path.Combine(appDataFolder, "BirthdayReminder");
-        
-        // Создаем папку, если ее нет
         Directory.CreateDirectory(appFolder);
-        
         _databasePath = Path.Combine(appFolder, "birthdays.db");
         _connectionString = $"Data Source={_databasePath}";
-        
         InitializeDatabase();
     }
 
     // Инициализация базы данных
     private void InitializeDatabase()
     {
-        // Создаем таблицу, если база данных новая
         if (!File.Exists(_databasePath))
         {
             using (var connection = new SqliteConnection(_connectionString))
@@ -179,7 +173,7 @@ public class BirthdayRepository
             .ToList();
     }
 
-    // Вспомогательный метод для расчета следующей даты дня рождения
+    // Вспомогательный метод для расчета следующего дня рождения
     private DateTime CalculateNextBirthday(DateTime birthDate, DateTime today)
     {
         int year = (birthDate.Month > today.Month || 
